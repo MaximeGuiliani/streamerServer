@@ -1,26 +1,36 @@
 import express from 'express';
+
+import streamersHandler from './streamers-handler';
+import asyncHandler from 'express-async-handler';
+
 const router = express.Router();
 
 let streamers = [{
-        streamerName: 'Maxime0',
-        streamerProfileImage: 'https://www.motorsinside.com/images/photo/article/f12022/ferrari-f1-75_jpg_sponsor_00001-sanslogo.jpg',
-        isPartner: false,
-        id: 0,
-    },
-    {
-        streamerName: 'Maxime1',
-        streamerProfileImage: 'https://www.monaco-tribune.com/wp-content/uploads/2022/02/scuderia-ferrari.jpeg',
-        isPartner: false,
-        id: 1,
-    },
-    {
-        streamerName: 'Maxime2',
-        streamerProfileImage: 'https://static.lexpress.fr/medias_11761/w_1000,h_563,c_fill,g_north/v1519313107/la-sf71-h-presentee-par-l-ecurie-ferrari-le-22-fevrier-2018_6021998.jpg',
-        isPartner: false,
-        id: 2,
-    },
-];
+    streamerName: 'Domingo',
+    isPartner: false,
+    streamerProfileImage: 'https://www.motorsinside.com/images/photo/article/f12022/ferrari-f1-75_jpg_sponsor_00001-sanslogo.jpg',
+    streamerDescription: "0"
+}];
 router.get('/', function (req, res) {
     res.send(streamers);
 })
+
+router.post('/', function (req, res) {
+    const userExist = streamers.find((streamer) => streamer.streamerName === req.body.streamerName);
+    if (userExist) {
+        res.send({});
+    } else {
+        streamers.push(req.body);
+        res.send({
+            streamerName: 'ok'
+        });
+    }
+});
+
+router.get('/', streamersHandler.getStreamers);
+
+router.post('/', streamersHandler.create);
+
+router.delete('/:id', asyncHandler(streamersHandler.streamerDelete));
+
 export default router;

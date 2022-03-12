@@ -17,6 +17,8 @@
     "@babel/preset-env": "^7.16.11"
   },
   "dependencies": {
-    "express": "^4.17.3"
+    "@elastic/elasticsearch": "^8.1.0",
+    "express": "^4.17.3",
+    "express-async-handler": "^1.2.0"
   }
 }

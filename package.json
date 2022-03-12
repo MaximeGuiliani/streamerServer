@@ -1,0 +1,22 @@
+{
+  "name": "streamerserver",
+  "version": "1.0.0",
+  "description": "Web Site that allow users to subscribe to streamers and see their schedule",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel server/ -d dist && rm -rf dist/app && cp -r app/ dist/",
+    "start": "npm run build && node dist/server.js",
+    "inspect": "node --inspect dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Maxime Guiliani/Papazian",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}

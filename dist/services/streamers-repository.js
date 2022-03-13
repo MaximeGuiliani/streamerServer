@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _express = require("express");
-
 var _esClient = _interopRequireDefault(require("./es-client"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -22,51 +20,46 @@ const handleElasticsearchError = error => {
 };
 
 const getAll = () => _esClient.default.search({
-  index
+  index: index
 }).then(response => response).catch(error => {
   handleElasticsearchError(error);
 });
 
-let streamers = {
-  streamerName: 'Gotaga',
-  isPartner: true,
-  streamerProfileImage: 'https://static-cdn.jtvnw.net/jtv_user_pictures/69e324f6-fc7d-4131-89ed-227a955637cf-profile_image-300x300.png',
-  descriptions: "Je m’appelle Corentin Houssein, j'ai 28 ans et je suis un ancien joueur professionnel sur les opus Call Of Duty sous le pseudonyme Gotaga. De nombreuses fois champion d'Europe et de France, je suis actuellement le joueur français le plus titré sur Consoles."
-}; //streamer data corect
-
-const store = streamerData => _esClient.default.index({
-  index,
+const store = streamer => _esClient.default.index({
+  index: index,
   refresh: 'true',
-  body: streamers
+  body: {
+    streamerName: streamer
+  }
 }).then(response => response.status).catch(error => {
   handleElasticsearchError(error);
 });
 
 const getStreamer = streamerName => _esClient.default.search({
-  index,
+  index: index,
   body: {
-    "query": {
-      "match": {
-        "firstName": {
-          "query": streamerName
+    query: {
+      match: {
+        streamerName: {
+          query: streamerName
         }
       }
     }
   }
 }).then(response => {
-  response;
+  return response;
 }).catch(error => {
   handleElasticsearchError(error);
 });
 
-const remove = firstName => _esClient.default.deleteByQuery({
-  index,
+const remove = streamerName => _esClient.default.deleteByQuery({
+  index: index,
   refresh: 'true',
   body: {
-    "query": {
-      "match": {
-        "firstName": {
-          "query": firstName
+    query: {
+      match: {
+        streamerName: {
+          query: streamerName
         }
       }
     }

@@ -9,6 +9,8 @@ async function getStreamers(req, res) {
     }
     res.send(finalArray);
   } catch (e) {
+    console.log('error get streamer', e);
+
     res.status(400).end();
   }
 }
@@ -24,6 +26,8 @@ async function create(req, res) {
       res.send((streamerName = 'ok'));
     }
   } catch (e) {
+    console.log('error create streamer', e);
+
     res.status(400).end();
   }
 }
@@ -34,7 +38,8 @@ async function streamerExist(streamerName) {
     console.log(result);
     return result.hits.total.value > 0 ? true : false;
   } catch (e) {
-    console.log('error getting streamer', e);
+
+    console.log('error getting streamer if exist', e);
     return false;
   }
 }
@@ -50,6 +55,8 @@ async function streamerDelete(req, res) {
       res.send(result);
     }
   } catch (e) {
+    console.log('error delete streamer', e);
+
     res.status(error.status || 400).end();
   }
 }

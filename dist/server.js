@@ -12,5 +12,5 @@ app.use(_express.default.static('./app/app-project/'));
 app.get('/', function (req, res) {
   res.sendFile('index.html');
 });
-app.use('/followed', _streamers.default);
 app.listen(8080);
+app.use('/followed', _streamers.default);

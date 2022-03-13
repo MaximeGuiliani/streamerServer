@@ -4,8 +4,8 @@ async function getStreamers(req, res) {
     try {
         const result = await streamersRepository.getAll();
         const finalArray = [];
-        for (let obj of result.body.hits.hits) {
-            finalArray.push(obj.source);
+        for (let obj of result.hits.hits) {
+            finalArray.push(obj._source);
         }
         res.send(finalArray);
     } catch (e) {
@@ -17,11 +17,16 @@ async function getStreamers(req, res) {
 async function create(req, res) {
     res.set('Content-Type', 'application/json');
     try {
+        //le boolean a l'air de marcher
         const streamerBool = await streamerExist(req.body.streamerName);
+
+
         if (streamerBool) {
             res.send({});
         } else {
+            //req.body marche
             await streamersRepository.store(req.body);
+
             res.send(
                 streamerName = 'ok'
             );
@@ -30,12 +35,12 @@ async function create(req, res) {
         res.status(400).end();
     }
 }
-
+//ne marche pas
 async function streamerExist(streamerName) {
     try {
-        // TODO : ERROR here
+        console.log("nom du streamer donné" + streamerName);
         const result = await streamersRepository.getStreamer(streamerName);
-        return result.body.hits.total.value > 0 ? true : false;
+        return result ? true : false;
     } catch (e) {
         console.log('error getting streamer', e);
         return false;

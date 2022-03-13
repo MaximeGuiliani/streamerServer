@@ -12,22 +12,21 @@ const handleElasticsearchError = (error) => {
     throw new Error(error.msg, error.status || 500);
 };
 
-
 const getAll = () => esClient.search({
     index,
 }).then(response => response).catch((error) => {
     handleElasticsearchError(error);
 });
 
-
-const store = streamer => esClient.index({
-    index,
-    refresh: 'true',
-    body: streamer,
-    //  TODO : error response.status
-}).then(response => response.status).catch((error) => {
-    handleElasticsearchError(error);
-});
+//streamer data corect
+const store = streamerData =>
+    esClient.index({
+        index,
+        refresh: 'true',
+        body: streamerData,
+    }).then(response => response.status).catch((error) => {
+        handleElasticsearchError(error);
+    });
 
 
 const getStreamer = streamerName => esClient.search({
@@ -36,7 +35,7 @@ const getStreamer = streamerName => esClient.search({
             "query": {
                 "match": {
                     "firstName": {
-                        "query": firstName
+                        "query": streamerName
                     }
                 }
             }
@@ -47,6 +46,7 @@ const getStreamer = streamerName => esClient.search({
     .catch((error) => {
         handleElasticsearchError(error);
     });
+
 
 const remove = firstName => esClient.deleteByQuery({
     index,
@@ -63,7 +63,6 @@ const remove = firstName => esClient.deleteByQuery({
 }).then(response => response).catch((error) => {
     handleElasticsearchError(error);
 });
-
 
 export default {
     getStreamer,

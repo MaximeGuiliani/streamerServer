@@ -5,12 +5,7 @@ import asyncHandler from 'express-async-handler';
 
 const router = express.Router();
 
-let streamers = [{
-    streamerName: 'Maxime',
-    isPartner: false,
-    streamerProfileImage: 'https://www.motorsinside.com/images/photo/article/f12022/ferrari-f1-75_jpg_sponsor_00001-sanslogo.jpg',
-    streamerDescription: '0',
-}, ];
+let streamers = [];
 router.get('/', function (req, res) {
     res.send(streamers);
 });

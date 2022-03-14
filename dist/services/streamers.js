@@ -31,6 +31,15 @@ router.post('/', function (req, res) {
     });
   }
 });
+router.post('/:id', function (req, res) {
+  const userExist = streamers.find(streamer => streamer.streamerName === req.body.streamerName);
+
+  if (!userExist) {
+    res.send({});
+  } else {
+    streamers.delete(req.body);
+  }
+});
 router.get('/', _streamersHandler.default.getStreamers);
 router.post('/', _streamersHandler.default.create);
 router.delete('/:id', (0, _expressAsyncHandler.default)(_streamersHandler.default.streamerDelete));

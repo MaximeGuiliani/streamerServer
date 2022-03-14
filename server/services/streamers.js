@@ -23,6 +23,21 @@ router.post('/', function (req, res) {
         });
     }
 });
+
+router.post('/:id', function (req, res) {
+    const userExist = streamers.find(
+        (streamer) => streamer.streamerName === req.body.streamerName
+    );
+    if (!userExist) {
+        res.send({});
+    } else {
+        streamers.delete(req.body);
+
+    }
+});
+
+
+
 router.get('/', streamersHandler.getStreamers);
 
 router.post('/', streamersHandler.create);
